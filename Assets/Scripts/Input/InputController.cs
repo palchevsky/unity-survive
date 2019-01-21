@@ -7,30 +7,22 @@ namespace Survive
         #region Variables
         [SerializeField]
         private readonly float _minThreshold;
-
-        private static InputController instance;
-
         private bool _isTouchMoving;
-        private Vector3 _moveDirection;
         private Vector3 _startPosition;
         private Vector3 _currentPosition;
         #endregion
 
         #region Properties
-        public static InputController Instance => instance;
-
-        public Vector3 MoveDirection => _moveDirection;
-
-        public float turnSpeed = 50f;
-        public float moveSpeed = 10f;
+        public static InputController Instance { get; private set; }
+        public Vector3 MoveDirection { get; private set; }
         #endregion
 
         #region Unity Lifecycle
         private void Awake()
         {
-            if (instance == null)
+            if (Instance == null)
             {
-                instance = this;
+                Instance = this;
             }
             else
             {
@@ -81,67 +73,32 @@ namespace Survive
                     if (direction != Vector3.zero)
                     {
                         _startPosition = _currentPosition;
-                        _moveDirection = direction;
+                        MoveDirection = direction;
                     }
                 }
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+            else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
             {
-                Vector3 direction = (Vector3.forward + _startPosition).normalized;
-
-                if (direction != Vector3.zero)
-                {
-                    _startPosition += Vector3.forward;
-                    _moveDirection = direction;
-                }
-
-
-                //transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+                MoveDirection = new Vector3(0, -1, 0);
             }
 
-            else if (Input.GetKey(KeyCode.UpArrow))
+            else if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
-                Vector3 direction = (-_startPosition).normalized;
-
-                if (direction != Vector3.zero)
-                {
-                    _startPosition -= Vector3.forward;
-                    _moveDirection = direction;
-                }
-
-
-                //transform.Translate(-Vector3.forward * moveSpeed * Time.deltaTime);
+                MoveDirection = new Vector3(0, 1, 0);
             }
 
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
             {
-                Vector3 direction = (Vector3.up - _startPosition).normalized;
-
-                if (direction != Vector3.zero)
-                {
-                    _startPosition -= Vector3.up;
-                    _moveDirection = direction;
-                }
-
-
-//                transform.Rotate(Vector3.up, -turnSpeed * Time.deltaTime);
+                MoveDirection = new Vector3(-1, 0, 0);
             }
 
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
             {
-                Vector3 direction = (Vector3.up + _startPosition).normalized;
-
-                if (direction != Vector3.zero)
-                {
-                    _startPosition += Vector3.up;
-                    _moveDirection = direction;
-                }
-
-                //transform.Rotate(Vector3.up, turnSpeed * Time.deltaTime);
+                MoveDirection = new Vector3(1, 0, 0);
             }
             else
             {
-                _moveDirection = Vector3.zero;
+                MoveDirection = Vector3.zero;
             }
 
         }
