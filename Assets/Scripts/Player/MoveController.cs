@@ -9,6 +9,8 @@ namespace Survive
         private float _speed;
         [SerializeField]
         private float _turnSpeed;
+        [SerializeField]
+        private Rigidbody _rigidbody;
         #endregion
 
         #region Unity Lifecycle
@@ -16,12 +18,10 @@ namespace Survive
         {
             Vector3 direction = new Vector3(InputController.Instance.MoveDirection.x, 0, InputController.Instance.MoveDirection.y);
 
-            transform.position += direction * _speed;
-
-            //transform.Translate(direction * _speed * Time.deltaTime);
+            _rigidbody.velocity = direction * _speed;
 
             Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
-            transform.rotation = rotation;
+            _rigidbody.rotation = rotation;
         }
         #endregion
     }
