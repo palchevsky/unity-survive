@@ -5,8 +5,6 @@ namespace Survive
 {
     public class FireController : MonoBehaviour
     {
-        // Start is called before the first frame update
-        #region Variables
         [SerializeField]
         private Bullet _bulletPrefab;
         [SerializeField]
@@ -16,38 +14,17 @@ namespace Survive
         [SerializeField]
         private string _targetLayer;
         private Enemy _enemy;
-        #endregion
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer(_targetLayer))
-            {
-                var enemy = other.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    _enemy = enemy;
-                    StartCoroutine("CoFire", other.transform.position);
-                }
-            }
+            TriggerHandle(other);
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer(_targetLayer) && _enemy == null)
-            {
-                var enemy = other.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    _enemy = enemy;
-                    StartCoroutine("CoFire", other.transform.position);
-                }
-            }
+            TriggerHandle(other);
         }
 
-        /// <summary>
-        /// OnTriggerExit is called when the Collider other has stopped touching the trigger.
-        /// </summary>
-        /// <param name="other">The other Collider involved in this collision.</param>
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer(_targetLayer))
@@ -63,26 +40,33 @@ namespace Survive
 
         }
 
-        private void Start()
+        private void TriggerHandle(Collider other)
         {
+            if (other.gameObject.layer == LayerMask.NameToLayer(_targetLayer) && (_enemy == null || _enemy.gameObject.activeInHierarchy == false))
+            {
+                var enemy = other.GetComponent<Enemy>();
 
+                if (enemy != null)
+                {
+                    _enemy = enemy;
+                    StopAllCoroutines();
+                    StartCoroutine("CoFire");
+                }
+            }
         }
-
-        // Update is called once per frame
-        private void Update()
-        {
-
-        }
-
-        private IEnumerator CoFire(Vector3 targetPosition)
+        
+        private IEnumerator CoFire()
         {
             while (true)
             {
-                if (_enemy == null)
+                if (_enemy == null || _enemy.gameObject.activeInHierarchy == false)
                 {
+                    _enemy = null;
                     break;
                 }
-                Vector3 direction = (targetPosition - _bulletStartPosition.position).normalized;
+
+                Vector3 direction = (_enemy.transform.position - _bulletStartPosition.position).normalized;
+                direction.y = 0;
                 var bullet = Instantiate(_bulletPrefab, _bulletStartPosition.position, Quaternion.identity);
                 bullet.Init(direction);
 
