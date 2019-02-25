@@ -21,9 +21,11 @@ namespace Survive
             if (other.gameObject.layer == LayerMask.NameToLayer(_damageLayer))
             {
                 _health -= 20;
+                Score.scoreValue += 10;
                 if (_health <= 0)
                 {
                     _health = 100;
+                    Score.scoreValue += 10;
                     _spawner.RespawnEnemy(this);
                 }
             }
@@ -32,7 +34,6 @@ namespace Survive
         public void SetDefaultParams()
         {
             _health = 100;
-            //Set default HP    
         }
     }
 }
