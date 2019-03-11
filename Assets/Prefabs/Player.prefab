@@ -98,6 +98,7 @@ MonoBehaviour:
   _speed: 5
   _turnSpeed: 0.2
   _rigidbody: {fileID: 3565197939419503316}
+  _animator: {fileID: 3655461187683026563}
 --- !u!136 &8967997981087576474
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -142,6 +143,25 @@ MonoBehaviour:
   _bulletStartPosition: {fileID: 3943980362126618779}
   _fireDelay: 1
   _targetLayer: Enemy
+--- !u!95 &3655461187683026563
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6546542996642163864}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
+  m_Controller: {fileID: 9100000, guid: b169b7ff5c22f7e45add1db4d602b078, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &6546542996642130840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,8 +217,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11100000, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
+--- !u!1 &6546542996642163864 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100096, guid: 320b1c2af77554f99a1658df4a6d3d5c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6546542996642130840}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6546542996642001272 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400096, guid: 320b1c2af77554f99a1658df4a6d3d5c,
